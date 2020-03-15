@@ -78,4 +78,16 @@ $ flask run
 
 #### The landing page:
 
-![Landing](/images/landing_page.PNG)
+![Landing](/images/landing_page.png)
+
+
+##### Note:
+If you want to play with the current users in the database. There are two fake accounts:      
+
+#1
+- Email: kareem@minerva.kgi.edu
+- Password: test1234
+
+#2 
+- Email: hatem@minerva.kgi.edu
+- Password: test1234
