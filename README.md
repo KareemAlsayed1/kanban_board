@@ -65,3 +65,9 @@ $ flask run
 
 - After that, click on sign up then create an account. 
 - Enjoy!
+
+## Screenshots for the project:
+
+#### The Kanban Board:
+
+![The Kanban Board](/images/the_board.PNG)
