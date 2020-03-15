@@ -57,9 +57,11 @@ The project requires python3 to be up and running.
 - Install all the required dependencies for the project.
 - Run the following commands in your Mac Terminal to get the server up and running.       
 ```
-$ export FLASK_APP=app ```     
+$ export FLASK_APP=app      
 ```
-$ flask run```
+```
+$ flask run
+```
 
 - After that, click on sign up then create an account. 
 - Enjoy!
