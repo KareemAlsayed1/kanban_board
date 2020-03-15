@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+        <title>Landing page</title>
+
+        <!-- Tab icon -->
+        <link rel="icon" href="{{ url_for('static', filename='/icons/favicon.ico') }}">
+        
+        <!-- Styling docs -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" 
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link rel="stylesheet" href="{{ url_for('static', filename='/board.css') }}">
+        <link href="https://fonts.googleapis.com/css?family=Patrick+Hand&display=swap" rel="stylesheet">
+
+        <!-- Font Awesome -->
+        <script src="https://kit.fontawesome.com/e7a847d88f.js" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+    <nav class="navbar navbar-light" id = "nav">
+        <div class="d-flex justify-content-between" style="width: 100%;">
+            <span class="navbar-brand" id = "nav_title">
+                <i class="fas fa-clipboard-list"></i>
+                Kanban board!
+            </span>
+            <form class="form-inline" style="width: 9%;">
+                <button type="button" class="btn btn-outline-light my-2 my-sm-0" data-toggle="modal" 
+                    data-target="#login_form">
+                    Login
+                </button>
+                <button type="button" class="btn btn-outline-light my-2 my-sm-0 ml-auto"  onclick="window.location.href='{{ url_for('auth.signup') }}'">
+                        SignUp!
+                </button>
+            </form>
+        </div> 
+    </nav> 
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <div class="alert alert-danger" role="alert">
+        {{ messages[0] }}
+    </div>
+    {% endif %}
+    {% endwith %}
+
+    <div class="jumbotron" style="margin-top:8%; background-color:#f5f5f5;">
+        <div class="container" style="background-color:#f5f5f5;">
+            <h1 class="display-4">Welcome to my Kanban Board!</h1>
+            <p class="lead">You have to login or signup to start using the board!</p>
+        </div>
+    </div>
+
+    <!-- Login form-->
+    <div class="modal fade" id="login_form" tabindex="-1" role="dialog" 
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">Login</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="login" action="/login" method="POST">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                        </div>
+                        <input type="email" class="form-control" placeholder="Email" aria-label="Email" 
+                        name="email" required>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"> <i class="fas fa-key"></i> </span>
+                        </div>
+                        <input type="password" class="form-control" placeholder="Password"
+                            aria-label="Password"  name="password" required>
+                    </div>
+                    <div class="form-group form-check">
+                        <input type="checkbox" class="form-check-input " id="loggedIn"  name="remember">
+                        <label class="form-check-label" for="loggedIn">Keep me logged in!</label>
+                    </div>
+                    <p id="createAcc">Don't have an account? <a href="{{ url_for('auth.signup') }}">Sign up here <i class="fas fa-arrow-alt-circle-right"></i></a></p>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button form="login" type="submit" class="btn btn-primary" value="submit">Log in  <i class="fas fa-sign-in-alt"></i></button>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JS scripts -->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" 
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" 
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" 
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>

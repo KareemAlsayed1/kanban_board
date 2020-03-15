@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <!-- Tab icon -->
+    <link rel="icon" href="{{ url_for('static', filename='/icons/favicon.ico') }}">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" 
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <!-- FontAwesome file -->
+    <script src="https://kit.fontawesome.com/e7a847d88f.js" crossorigin="anonymous"></script>
+
+   <!-- Google fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Patrick+Hand&display=swap" rel="stylesheet">
+
+    <!-- CSS file -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='/signup.css') }}">
+
+    <title>Sign up</title>
+</head>
+<body>
+
+  <!-- Script for form validation -->
+    <script>
+
+      function checkForm(form)
+      {
+    
+        if(form.pwd1.value == form.pwd2.value) {
+            return true;
+          }
+        else {
+          alert("Error: the password is not repeated correctly");
+          form.pwd1.focus();
+          return false;
+        }
+        }
+    </script>
+
+    <div class="container-fluid shadow-lg signupHalf" id="main_container">
+
+          <div class="col signupHalf  d-flex align-items-center justify-content-center" >
+            <div class="signupForm">
+              <h3 id="signupTitle" style="margin-bottom: 5%;">Sign Up</h3>
+              {% with messages = get_flashed_messages() %}
+              {% if messages %}
+              <div class="alert alert-danger" role="alert">
+                {{ messages[0] }}. Go to <a href="{{ url_for('auth.login') }}">login page</a>.
+              </div>
+              {% endif %}
+              {% endwith %}
+                <form action="/signup" method="POST" onsubmit="return checkForm(this);">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text" id="basic-addon1"><i class="fas fa-envelope"></i></span>
+                        </div>
+                        <input type="email" class="form-control" placeholder="Personal Email" 
+                        aria-label="Email" aria-describedby="basic-addon1" name="email" required>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text" id="basic-addon2"><i class="fas fa-signature"></i></span>
+                        </div>
+                        <input type="text" class="form-control" placeholder="First Name" aria-label="firstName" 
+                        aria-describedby="basic-addon2" name="first_name" required>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text" id="basic-addon3"><i class="fas fa-signature"></i></span>
+                        </div>
+                        <input type="text" class="form-control" placeholder="Last Name" aria-label="lastName"
+                         aria-describedby="basic-addon3" name="last_name" required>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text" id="basic-addon4"><i class="fas fa-key"></i></span>
+                        </div>
+                        <input type="password" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="basic-addon4" 
+                        minlength="8" maxlength="16" name="pwd1" required>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text" id="basic-addon5"><i class="fas fa-redo"></i></span>
+                        </div>
+                        <input type="password" class="form-control" placeholder="Repeat Password" aria-label="Repeat Password" aria-describedby="basic-addon5"
+                        minlength="8" maxlength="16" name="pwd2" required>
+                    </div>                    
+                    <p class = "mb-3" id="terms">By creating an account you agree to our <a href="{{ url_for('auth.login') }}">Terms & Privacy</a></p>
+                    <button type="submit" class="btn btn-primary mb-4" id="signupButton"><i class="fas fa-plus-circle"></i>  Create an Account</button>
+                </form>
+                <p id="login">I have an account! <a href="{{ url_for('auth.login') }}">Login</a></p>
+
+            </div>
+          </div>
+    </div>
+  <!-- Bootstrap JS files -->
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" 
+  integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" 
+  integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" 
+  integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+  
+</body>
+</html>
+ 

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+        <title>Kanban board</title>
+
+        <!-- Tab icon -->
+        <link rel="icon" href="{{ url_for('static', filename='/icons/favicon.ico') }}">
+        
+        <!-- Styling docs -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" 
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link rel="stylesheet" href="{{ url_for('static', filename='/board.css') }}">
+
+        <!-- Google fonts -->
+        <link href="https://fonts.googleapis.com/css?family=Patrick+Hand&display=swap" rel="stylesheet">
+
+        <!-- Font Awesome -->
+        <script src="https://kit.fontawesome.com/e7a847d88f.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+        <nav class="navbar navbar-light" id = "nav">
+                <div class="d-flex justify-content-between" style="width: 100%;">
+                        <span class="navbar-brand" id = "nav_title">
+                                <i class="fas fa-clipboard-list"></i>
+                                Kanban board!
+                        </span>
+                        <span class="navbar-brand" id="top_title">
+                                Hello {{ name }}!
+                        </span>
+                        <form class="form-inline" action="/signout">
+                                <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Sign Out</button>
+                        </form>
+                </div>
+        </nav> 
+  
+        <div class="d-flex flex-row justify-content-around align-items-start" id="cards_row">
+                <!-- TODO -->
+                        <div class="card shadow-lg" id="todo_board">
+                                <div class="card-body">
+                                <h4 class="card-title" id="board_title">ToDo</h4>   
+                                <hr style="background-color: white;">
+                                <h6 class="card-subtitle mb-3">Hope to start soon!</h6>     
+                                <div id="todo_body" title="todo">                                   
+                                {% for t_todo in todo %}
+                                <div class="accordion mb-4" id="accordionTodo" title="{{ t_todo.task_id }}" draggable="true">
+                                        <div class="card  shadow-lg" id ="task" title="{{ t_todo.task_id }}">
+
+                                                <div class="card-header"> 
+                                                        <div class="d-flex mb-0" id="task_title">
+                                                                <div  class="align-self-center">{{ t_todo.title }}</div>
+                                                                <form action="{{ url_for('main.delete_task',id=t_todo.task_id) }}" class="form-inline ml-auto" method="POST">
+                                                                        <button type="submit" class="btn btn-outline-light" value="delete">
+                                                                                <i class="far fa-trash-alt task_title"></i>
+                                                                        </button>
+                                                                </form>
+                                                                <button class="btn btn-link"  id="expand_btn" type="button" data-toggle="collapse" 
+                                                                data-target="#collapse_{{ t_todo.task_id }}" aria-expanded="true" aria-controls="collapse_{{ t_todo.task_id }}">
+                                                                    <i class="fas fa-chevron-down"></i>
+                                                                </button>
+                                                        </div>
+                                                </div>
+                                            
+                                                <div id="collapse_{{ t_todo.task_id }}" class="collapse" aria-labelledby="heading_{{ t_todo.task_id }}" data-parent="#accordionTodo">
+                                                  <div class="card-body">
+                                                        <h6 class="card-subtitle mb-1">Task Description</h6>
+                                                        <hr style="background-color:  white;">
+                                                        {{ t_todo.descripition }}
+                                                  </div>
+                                                </div>
+                                        </div>
+                                </div> 
+                                {% endfor %}
+                                </div>
+                                <div class="d-flex justify-content-center">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" 
+                                        data-target="#exampleModalCenter" id="add_task_btn">
+                                                Add Task
+                                        </button>
+                                </div>
+                                </div>
+                        </div>
+                <!-- DOING Board -->
+                        <div class="card shadow-lg" id="doing_board">
+                                <div class="card-body">
+                                <h4 class="card-title" id="board_title1">Doing</h4>   
+                                <hr style="background-color: white;">
+                                <h6 class="card-subtitle mb-3">Working on these tasks</h6>
+                                <div id="doing_body" title="doing">
+                                {% for t_doing in doing %}
+                                <div class="accordion mb-4" id="accordionDoing" draggable="true" title="{{ t_doing.task_id }}">
+                                        <div class="card  shadow-lg" id ="task" title="{{ t_doing.task_id }}">
+                                                <div class="card-header"> 
+                                                        <div class="d-flex mb-0" id="task_title">
+                                                                <div  class="align-self-center">{{ t_doing.title }}</div>
+                                                                <form action="{{ url_for('main.delete_task',id=t_doing.task_id) }}" class="form-inline ml-auto" method="POST">
+                                                                        <button type="submit" class="btn btn-outline-light" value="delete">
+                                                                                <i class="far fa-trash-alt" id="task_title"></i>
+                                                                        </button>
+                                                                </form>
+                                                                <button class="btn btn-link"  id="expand_btn" type="button" data-toggle="collapse" 
+                                                                data-target="#collapse_{{ t_doing.task_id }}" aria-expanded="true" aria-controls="collapse_{{ t_doing.task_id }}">
+                                                                    <i class="fas fa-chevron-down"></i>
+                                                                </button>
+                                                        </div>
+                                                </div>
+                                            
+                                                <div id="collapse_{{ t_doing.task_id }}" class="collapse" aria-labelledby="heading_{{ t_doing.task_id }}" data-parent="#accordionDoing">
+                                                  <div class="card-body">
+                                                        <h6 class="card-subtitle mb-1">Task Description</h6>
+                                                        <hr style="background-color:  white;">
+                                                        {{ t_doing.descripition }}
+                                                  </div>
+                                                </div>
+                                        </div>
+                                </div> 
+                                {% endfor %}
+                                </div>
+                                <div class="d-flex justify-content-center">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" 
+                                        data-target="#exampleModalCenter" id="add_task_btn1">
+                                                Add Task
+                                        </button>
+                                </div>
+                                </div>
+                        </div>
+                <!-- Done -->
+                        <div class="card shadow-lg" id="done_board">
+                                <div class="card-body">
+                                <h4 class="card-title" id="board_title2">Done</h4>   
+                                <hr style="background-color: white;">
+                                <h6 class="card-subtitle mb-3">Yay, we are done :)</h6>
+                                <div id="done_body" title="done">
+                                {% for t_done in done %}
+                                <div class="accordion mb-4" id="accordionDone" draggable="true" title="{{ t_done.task_id }}">
+                                        <div class="card  shadow-lg" id ="task" title="{{ t_done.task_id }}">
+                                                <div class="card-header"> 
+                                                        <div class="d-flex mb-0" id="task_title">
+                                                                <div  class="align-self-center">{{ t_done.title }}</div>
+                                                                <form action="{{ url_for('main.delete_task',id=t_done.task_id) }}" class="form-inline ml-auto" method="POST">
+                                                                        <button type="submit" class="btn btn-outline-light" value="delete">
+                                                                                <i class="far fa-trash-alt" id="task_title"></i>
+                                                                        </button>
+                                                                </form>
+                                                                <button class="btn btn-link"  id="expand_btn" type="button" data-toggle="collapse" 
+                                                                data-target="#collapse_{{ t_done.task_id }}" aria-expanded="true" aria-controls="collapse_{{ t_done.task_id }}">
+                                                                    <i class="fas fa-chevron-down"></i>
+                                                                </button>
+                                                        </div>
+                                                </div>
+                                            
+                                                <div id="collapse_{{ t_done.task_id }}" class="collapse" aria-labelledby="heading_{{ t_done.task_id }}" data-parent="#accordionDone">
+                                                  <div class="card-body">
+                                                        <h6 class="card-subtitle mb-1">Task Description</h6>
+                                                        <hr style="background-color:  white;">
+                                                        {{ t_done.descripition }}
+                                                  </div>
+                                                </div>
+                                        </div>
+                                </div> 
+                                {% endfor %}
+                                </div>
+                                <div class="d-flex justify-content-center">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" 
+                                        data-target="#exampleModalCenter" id="add_task_btn2">
+                                                Add Task
+                                        </button>
+                                </div>
+                                </div>
+                        </div>    
+        </div>
+
+        <!-- Add a task form-->
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalCenterTitle">Creating a task</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                                <form  id="add_task" action='add_task' method="POST">
+                                        <div class="form-group">
+                                                <label for="task-title" >Task title</label>
+                                                <input type="text" class="form-control" id = "task-title" placeholder="Enter task"
+                                                 name="title" maxlength="100"  required>
+                                                <small class="form-text text-muted">Please enter the task title</small>
+                                        </div>
+                                        <div class="form-group">
+                                                <label for="descripition">Description</label>
+                                                <textarea class="form-control"  id="descripition" rows="3" maxlength="500" 
+                                                name="descripition"></textarea>
+                                        </div> 
+                                        <select class="custom-select" id="inputGroupSelect01" name="status" required>
+                                                <option value="" disabled selected hidden>Current status</option>
+                                                <option value="todo">ToDo</option>
+                                                <option value="doing">Doing</option>
+                                                <option value="done">Done</option>
+                                        </select>
+                                </form>          
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <button form="add_task" type="submit" class="btn btn-primary" value="submit">Save changes</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+        <!-- JS scripts -->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" 
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" 
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" 
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.2/dragula.min.js'></script>
+        <script src="{{ url_for('static', filename='/board.js') }}"> </script>
+</body>
+</html>
