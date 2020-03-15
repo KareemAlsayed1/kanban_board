@@ -70,4 +70,12 @@ $ flask run
 
 #### The Kanban Board:
 
-![The Kanban Board](/images/the_board.PNG)
+![The Kanban Board](/images/the_board.png)
+
+#### The SignUp page:
+
+![SignUp](/images/sign_up.png)
+
+#### The landing page:
+
+![Landing](/images/landing_page.PNG)
